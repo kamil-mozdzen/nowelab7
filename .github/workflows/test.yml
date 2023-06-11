@@ -52,3 +52,9 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/laby_7
+        - name: Restart deployment on AKS
+      uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{ secrets.AZURE_CREDENTIALS }}
+      with:
+        args: rollout restart deployment moja-app -n test-namespace
